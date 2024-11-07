@@ -1,0 +1,229 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Air - Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
+    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- Modernizr JS -->
+    <script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
+    <!-- FOR IE9 below -->
+    <!--[if lt IE 9]>
+        <script src="{% static 'js/respond.min.js' %}"></script>
+        <![endif]-->
+
+    <style>
+        .container-down {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 75vh;
+            text-align: center;
+        }
+
+        .btn-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            grid-gap: 10px;
+            margin: 20px;
+        }
+
+        .btn-large {
+            padding: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            text-align: center;
+            background-color: #DD356E;
+            color: #fffdfd;
+            transition: all 0.3s ease;
+        }
+
+        .btn-large:hover {
+            background-color: #f15b8d;
+            color: #fffdfd;
+        }
+
+        .btn-large.selected {
+            background-color: #910533;
+            color: #fffdfd;
+        }
+
+        .btn-demo {
+            width: 100%;
+        }
+
+        .btn-hidden {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .btn-visible {
+            display: block;
+            opacity: 1;
+        }
+
+        .btn-small {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        .btn-container .btn {
+            flex: 1;
+            margin: 0 5px;
+        }
+
+        .btn-container .btn-primary {
+            order: 3;
+        }
+
+        .btn-container .btn-danger {
+            order: 2;
+        }
+
+        .btn-container .btn-secondary {
+            order: 1;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="fh5co-loader"></div>
+    
+    <nav class="fh5co-nav" role="navigation">
+        <div class="top-menu">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div id="fh5co-logo"><a href="{% url 'home' %}">Air<span>.</span></a></div>
+                    </div>
+                    <div class="col-xs-10 text-right menu-1">
+                        <ul>
+                            <li class=""><a href="{% url 'home' %}">Inicio</a></li>
+                            <li class="active"><a href="{% url 'chat' %}">Chat</a></li>
+                            <li class=""><a href="{% url 'about' %}">Informacion</a></li>
+                            <li class=""><a href="{% url 'ver_historial' %}">Historial</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-down">
+        <h1>Cuales son los sintomas que estas experimentando en este momento?</h1>
+        <div class="btn-grid" id="initial-buttons">
+            <button class="btn-large btn btn-demo" id="btn1">Hiperventilacion</button>
+            <button class="btn-large btn btn-demo" id="btn2">Llanto incontenible</button>
+            <button class="btn-large btn btn-demo" id="btn3">Agresividad</button>
+            <button class="btn-large btn btn-demo" id="btn4">Abuso de sustancias</button>
+            <button class="btn-large btn btn-demo" id="btn5">Distorsion de la realidad</button>
+            <button class="btn-large btn btn-demo" id="btn6">Ideas de autolesion</button>
+        </div>
+        <div class="btn-grid" id="additional-buttons" style="display: none;">
+            <button class="btn-large btn btn-demo btn-hidden" id="btn7">Temblores</button>
+            <button class="btn-large btn btn-demo btn-hidden" id="btn8">Sudoracion</button>
+            <button class="btn-large btn btn-demo btn-hidden" id="btn9">Pitido</button>
+            <button class="btn-large btn btn-demo btn-hidden" id="btn10">Nublar de vision</button>
+            <button class="btn-large btn btn-demo btn-hidden" id="btn11">Palpitaciones rapidas</button>
+            <button class="btn-large btn btn-demo btn-hidden" id="btn12">Vomito</button>
+            <button class="btn-large btn btn-demo btn-hidden" id="btn13">Abstinencia</button>
+            <button class="btn-large btn btn-demo btn-hidden" id="btn14">Agresion a otros</button>
+        </div>
+        <form id="symptoms-form" method="post" action="{% url 'process_symptoms' %}">
+            {% csrf_token %}
+            <input type="hidden" name="selected_buttons" id="selected_buttons">
+            <div class="btn-container">
+                <button type="button" class="btn-large btn btn-danger btn-small" id="btnFinish"
+                    style="display:none;">Terminar</button>
+                <button type="button" class="btn-large btn btn-primary btn-small" id="btnNext"
+                    style="display:none;">Siguiente</button>
+            </div>
+        </form>
+    </div>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
+    <script src="{% static 'js/main.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const allButtons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+            const initialButtons = [1, 2, 3, 4, 5, 6];
+            const additionalButtonsMap = {
+                1: [7, 8, 9, 10, 11, 12],
+                2: [],
+                3: [13, 14],
+                4: [],
+                5: [],
+                6: []
+            };
+            const btnNext = document.getElementById("btnNext");
+            const btnFinish = document.getElementById("btnFinish");
+            const selectedButtons = new Set();
+
+            allButtons.forEach(id => {
+                document.getElementById(`btn${id}`).addEventListener("click", function () {
+                    const btn = document.getElementById(`btn${id}`);
+                    if (btn.classList.contains("selected")) {
+                        btn.classList.remove("selected");
+                        selectedButtons.delete(id);
+                    } else {
+                        btn.classList.add("selected");
+                        selectedButtons.add(id);
+                    }
+                    btnNext.style.display = selectedButtons.size > 0 ? "block" : "none";
+                    btnFinish.style.display = selectedButtons.size > 0 ? "block" : "none";
+                });
+            });
+
+            btnNext.addEventListener("click", function () {
+                document.getElementById("initial-buttons").classList.add("btn-hidden");
+                setTimeout(() => {
+                    document.getElementById("initial-buttons").style.display = "none";
+                    const additionalButtonsContainer = document.getElementById("additional-buttons");
+                    additionalButtonsContainer.style.display = "grid";
+                    btnFinish.style.display = "block";
+                    selectedButtons.forEach(id => {
+                        additionalButtonsMap[id].forEach(additionalId => {
+                            const btn = document.getElementById(`btn${additionalId}`);
+                            btn.classList.remove("btn-hidden");
+                            btn.classList.add("btn-visible");
+                        });
+                    });
+                }, 0); // Wait for transition
+            });
+
+            btnFinish.addEventListener("click", function () {
+                document.getElementById("selected_buttons").value = Array.from(selectedButtons).join(",");
+                document.getElementById("symptoms-form").submit();
+            });
+        });
+    </script>
+</body>
+
+</html>
