@@ -1,0 +1,144 @@
+{% load static %}
+
+<!DOCTYPE HTML>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Air - Information</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<!-- <link href="https://fonts.googleapis.com/css?family=Work+Sans:300,400,500,700,800" rel="stylesheet">    -->
+	<link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
+
+	<!-- Animate.css -->
+	<link rel="stylesheet" href="{% static 'css/animate.css' %}">
+	<!-- Icomoon Icon Fonts-->
+	<link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
+	<!-- Bootstrap  -->
+	<link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+	<!-- Flexslider  -->
+	<link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
+	<!-- Theme style  -->
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+	<!-- Modernizr JS -->
+	<script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
+	<!-- FOR IE9 below -->
+	<!--[if lt IE 9]>
+    <script src="{% static 'js/respond.min.js' %}"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+	<div class="fh5co-loader"></div>
+
+	<div id="page">
+		<nav class="fh5co-nav" role="navigation">
+			<div class="top-menu">
+				<div class="container">
+					<div class="row">
+						<div class="col-xs-2">
+							<div id="fh5co-logo"><a href="{% url 'home' %}">Air<span>.</span></a></div>
+						</div>
+						<div class="col-xs-10 text-right menu-1">
+							<ul>
+								<li class=""><a href="{% url 'home' %}">Inicio</a></li>
+								<li class=""><a href="{% url 'chat' %}">Chat</a></li>
+								<li class="active"><a href="{% url 'about' %}">Informacion</a></li>
+								<li class=""><a href="{% url 'ver_historial' %}">Historial</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</nav>
+
+		<div id="fh5co-about">
+			<div class="container">
+				<div class="row animate-box">
+					<div class="col-md-8 col-md-offset-2 text-center fh5co-heading">
+						<h2>Sobre nosotros</h2>
+						<p>Somos una aplicacion que ayuda a las personas que pueden estar teniendo crisis psicologicas</p>
+					</div>
+				</div>
+				<div class="row animate-box">
+					<div class="col-md-6 col-md-offset-3 text-center heading-section">
+						<h3>Por que hacemos esto?</h3>
+						<p>Sabemos que los temas psiologicos siguen siendo un tabu, por eso hemos creado esta aplicacion</p>
+					</div>
+				</div>
+
+				<div class="row row-bottom-padded-md">
+					<div class="col-md-12 text-center animate-box">
+						<p><img src="{% static 'images/cover_bg_1.jpg' %}" alt="Free HTML5 Bootstrap Template"
+								class="img-responsive img-rounded"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="fh5co-features">
+			<div class="container">
+				<div class="services-padding">
+					<!-- Information on Anxiety, Panic, and Psychotic Attacks -->
+					<div class="row">
+						<div class="col-md-12 animate-box">
+							<h2>Que son los ataques de Ansiedad, Panico y Psicoticos?</h2>
+							<h3>Ataque de Ansiedad</h3>
+							<p>Un ataque de ansiedad es una manifestacion aguda de los sintomas de ansiedad. Estos
+								pueden incluir palpitaciones, sudoracion, temblores, dificultad para respirar y una
+								sensacion de perdida de control. Los ataques de ansiedad pueden ser desencadenados por
+								situaciones estresantes o sin un motivo claro.</p>
+
+							<h3>Ataque de Panico</h3>
+							<p>Un ataque de panico es un episodio repentino de miedo intenso que desencadena severas
+								reacciones fisicas cuando no existe un peligro real o aparente. Los sintomas pueden
+								incluir dolor en el pecho, sensacion de asfixia, mareo y miedo a morir. A menudo, los
+								ataques de panico ocurren sin previo aviso y pueden ser muy debilitantes.</p>
+
+							<h3>Ataque Psicotico</h3>
+							<p>Un ataque psicotico implica una perdida de contacto con la realidad, lo que puede
+								manifestarse en alucinaciones (ver o escuchar cosas que no estan presentes) y delirios
+								(creencias falsas e irracionales). Estos episodios pueden ser el resultado de trastornos
+								mentales como la esquizofrenia, el trastorno bipolar o el consumo de sustancias.</p>
+
+							<h3>Prevencion</h3>
+							<p>La prevencion de estos ataques puede incluir:</p>
+							<ul>
+								<li>Practicar tecnicas de relajacion como la meditacion, el yoga o la respiracion
+									profunda.</li>
+								<li>Hacer ejercicio regularmente para reducir el estres.</li>
+								<li>Evitar el consumo excesivo de cafeina y alcohol.</li>
+								<li>Buscar apoyo psicologico o psiquiatrico cuando sea necesario.</li>
+								<li>Establecer y mantener una rutina diaria equilibrada.</li>
+							</ul>
+						</div>
+					</div>					
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="gototop js-top">
+		<a href="#" class="js-gotop"><i class="icon-arrow-up22"></i></a>
+	</div>
+
+	<!-- jQuery -->
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<!-- jQuery Easing -->
+	<script src="{% static 'js/jquery.easing.1.3.js' %}"></script>
+	<!-- Bootstrap -->
+	<script src="{% static 'js/bootstrap.min.js' %}"></script>
+	<!-- Waypoints -->
+	<script src="{% static 'js/jquery.waypoints.min.js' %}"></script>
+	<!-- Flexslider -->
+	<script src="{% static 'js/jquery.flexslider-min.js' %}"></script>
+	<!-- Main -->
+	<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+
+</html>
