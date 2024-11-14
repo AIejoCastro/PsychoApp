@@ -6,14 +6,12 @@ import psychoapp.expertSystem as expertSystem
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth.decorators import login_required
-from .models import HistorialResultado
+from .models import HistorialResultado, HistoriaClinica
 
 def index(request):
-    # Cierra la sesión del usuario si está autenticado
     if request.user.is_authenticated:
         logout(request)
 
-    # Renderiza la página de inicio
     doc_index = open("psychoApp/templates/index.html")
     template = Template(doc_index.read())
     doc_index.close()
@@ -121,8 +119,21 @@ def register_view(request):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+
+            historia_clinica = HistoriaClinica.objects.create(
+                usuario=user,
+                fecha_nacimiento=form.cleaned_data['fecha_nacimiento'],
+                direccion=form.cleaned_data['direccion'],
+                telefono=form.cleaned_data['telefono'],
+                antecedentes_medicos=form.cleaned_data['antecedentes_medicos'],
+                medicamentos_actuales=form.cleaned_data['medicamentos_actuales'],
+                alergias=form.cleaned_data['alergias'],
+                contacto_emergencia=form.cleaned_data['contacto_emergencia'],
+                telefono_emergencia=form.cleaned_data['telefono_emergencia']
+            )
+
             login(request, user)
-            return redirect('login') 
+            return redirect('home')
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
