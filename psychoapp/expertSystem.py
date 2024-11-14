@@ -3,7 +3,6 @@ from pgmpy.models import BayesianNetwork
 from pgmpy.factors.discrete import TabularCPD
 from pgmpy.inference import VariableElimination
 
-# Definir la estructura de la red Bayesiana
 model = BayesianNetwork([
     ('Panico', 'hiperventilacion'),
     ('Panico', 'llanto_incontenible'),
@@ -49,13 +48,9 @@ model = BayesianNetwork([
     ('Psicotico', 'agresion_a_otros')
 ])
 
-
-# Definiciones de las CPDs para los estados de 'Pánico', 'Ansiedad' y 'Psicótico'
 cpd_panico = TabularCPD(variable='Panico', variable_card=2, values=[[0.7], [0.3]])
 cpd_ansiedad = TabularCPD(variable='Ansiedad', variable_card=2, values=[[0.6], [0.4]])
 cpd_psicotico = TabularCPD(variable='Psicotico', variable_card=2, values=[[0.8], [0.2]])
-
-# Definiciones de las CPDs para los síntomas ajustadas
 
 cpd_hiperventilacion = TabularCPD(variable='hiperventilacion', variable_card=2,
                                   values=[[0.7, 0.4, 0.6, 0.3, 0.5, 0.8, 0.4, 0.3],
@@ -141,21 +136,17 @@ cpd_agresion_otros = TabularCPD(variable='agresion_a_otros', variable_card=2,
                                 evidence=['Panico', 'Ansiedad', 'Psicotico'],
                                 evidence_card=[2, 2, 2])
 
-# Agregar todas las CPDs al modelo
 model.add_cpds(cpd_hiperventilacion, cpd_llanto, cpd_agresividad, cpd_abuso_sustancias,
                cpd_distorsion_realidad, cpd_ideas_autolesion, cpd_temblores, cpd_sudoracion,
                cpd_pitido, cpd_nubla_vision, cpd_palpitaciones, cpd_vomito, cpd_abstinencia,
                cpd_agresion_otros, cpd_panico, cpd_ansiedad, cpd_psicotico)
 
-# Verificar que el modelo está bien definido
 assert model.check_model()
 
-# Crear el objeto de inferencia
 inference = VariableElimination(model)
 
 from experta import *
 
-# Definir las clases de hechos
 class Symptom(Fact):
     hiperventilacion = Field(int, default=0)
     llanto_incontenible = Field(int, default=0)
@@ -176,7 +167,6 @@ class Diagnosis(Fact):
     """Diagnóstico basado en síntomas"""
     pass
 
-# Definir el sistema experto
 class PsychologicalEmergencyExpert(KnowledgeEngine):
 
     def __init__(self):
@@ -184,7 +174,6 @@ class PsychologicalEmergencyExpert(KnowledgeEngine):
        self.result = ""
 
     def infer_diagnosis_generic(self, f):
-        # Realizar inferencia con el modelo Bayesiano
         symptoms = {
             'hiperventilacion': f['hiperventilacion'], 'llanto_incontenible': f['llanto_incontenible'],
             'agresividad': f['agresividad'], 'abuso_de_sustancias': f['abuso_de_sustancias'],
@@ -194,7 +183,6 @@ class PsychologicalEmergencyExpert(KnowledgeEngine):
             'vomito': f['vomito'], 'abstinencia': f['abstinencia'], 'agresion_a_otros': f['agresion_a_otros']
         }
 
-        # Construir el diccionario de evidencia
         evidence = {key: value for key, value in symptoms.items() if value == 1}
 
         result_anxiety = inference.query(variables=['Ansiedad'], evidence=evidence)
@@ -238,7 +226,6 @@ class PsychologicalEmergencyExpert(KnowledgeEngine):
     def suicidal(self):
       self.result += f"Debes llamar a un numero de emergencia o a alguien de tu entera confianza, entiende que tu vida vale mucho"
 
-# Crear la instancia del sistema experto
 engine = PsychologicalEmergencyExpert()
 
 def encontrar_maximo(array):
@@ -248,7 +235,6 @@ def encontrar_maximo(array):
       maximo = elemento
   return maximo
 
-# Tu método start del sistema experto
 def start(hiper, llanto, agresividad, abuso, distorsion, ideas, temblores, sudoracion, pitido, nubla, palpitaciones, vomito, abstinencia, agresion):
     symptoms_values = {
         'hiperventilacion': hiper,

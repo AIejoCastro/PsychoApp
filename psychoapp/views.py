@@ -3,13 +3,17 @@ from django.template import Template, Context
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 import psychoapp.expertSystem as expertSystem
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth.decorators import login_required
 from .models import HistorialResultado
 
-@login_required
 def index(request):
+    # Cierra la sesión del usuario si está autenticado
+    if request.user.is_authenticated:
+        logout(request)
+
+    # Renderiza la página de inicio
     doc_index = open("psychoApp/templates/index.html")
     template = Template(doc_index.read())
     doc_index.close()
@@ -17,7 +21,6 @@ def index(request):
     doc = template.render(context)
     return HttpResponse(doc)
 
-@login_required
 def about(request):
     doc_index = open("psychoApp/templates/about.html")
     template = Template(doc_index.read())
@@ -26,7 +29,6 @@ def about(request):
     doc = template.render(context)
     return HttpResponse(doc)
 
-@login_required
 def chat(request):
     doc_index = open("psychoApp/templates/chat.html")
     template = Template(doc_index.read())
@@ -35,11 +37,10 @@ def chat(request):
     doc = template.render(context)
     return HttpResponse(doc)
 
-@login_required
 @csrf_exempt
 def process_symptoms(request):
     if request.method == 'POST':
-        selected_buttons = request.POST.get('selected_buttons').split(',')  # Split the comma-separated values
+        selected_buttons = request.POST.get('selected_buttons').split(',')
         symptoms_dict = {
             'hiperventilacion': 1 if '1' in selected_buttons else 0,
             'llanto_incontenible': 1 if '2' in selected_buttons else 0,
@@ -57,7 +58,6 @@ def process_symptoms(request):
             'agresion_a_otros': 1 if '14' in selected_buttons else 0
         }
 
-        # Llama al método del sistema experto y captura el resultado
         result = expertSystem.start(
             symptoms_dict['hiperventilacion'],
             symptoms_dict['llanto_incontenible'],
@@ -75,15 +75,14 @@ def process_symptoms(request):
             symptoms_dict['agresion_a_otros']
         )
 
-        # Guardar el resultado en el historial
-        historial = HistorialResultado(
-            usuario=request.user,
-            sintomas=','.join(selected_buttons),
-            resultado=result['resultado']
-        )
-        historial.save()
+        if request.user.is_authenticated:
+            historial = HistorialResultado(
+                usuario=request.user,
+                sintomas=','.join(selected_buttons),
+                resultado=result['resultado']
+            )
+            historial.save()
 
-        # Pasa el resultado a la plantilla
         return render(request, 'result_page.html', {'selected_buttons': selected_buttons, 'result': result})
     
     return render(request, 'your_template.html')

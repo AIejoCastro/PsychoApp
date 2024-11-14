@@ -24,11 +24,11 @@ from .views import login_view, register_view, ver_historial, eliminar_historial
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('home/', psychoapp.views.index, name='home'),
+    path('', psychoapp.views.index, name='home'),
     path('about/', psychoapp.views.about, name='about'),
     path('chat/', psychoapp.views.chat, name='chat'),
     path('process_symptoms/', psychoapp.views.process_symptoms, name='process_symptoms'),
-    path('', login_view, name='login'),
+    path('login/', login_view, name='login'),
     path('register/', register_view, name='register'),
     path('historial/', ver_historial, name='ver_historial'),
     path('historial/eliminar/<int:id>/', eliminar_historial, name='eliminar_historial'),
