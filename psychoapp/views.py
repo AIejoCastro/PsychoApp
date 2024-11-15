@@ -9,15 +9,12 @@ from django.contrib.auth.decorators import login_required
 from .models import HistorialResultado, HistoriaClinica
 
 def index(request):
-    if request.user.is_authenticated:
-        logout(request)
-
     doc_index = open("psychoApp/templates/index.html")
     template = Template(doc_index.read())
     doc_index.close()
     context = Context()
     doc = template.render(context)
-    return HttpResponse(doc)
+    return render(request, 'index.html', {'user': request.user})
 
 def about(request):
     doc_index = open("psychoApp/templates/about.html")

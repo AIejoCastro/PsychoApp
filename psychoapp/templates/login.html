@@ -67,10 +67,30 @@
             cursor: pointer;
             font-size: 16px;
             transition: background-color 0.3s;
+            margin-top: 10px;
         }
 
         button:hover {
             background-color: #0056b3;
+        }
+
+        .home-button {
+            background-color: #6c757d;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+            display: inline-block;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+
+        .home-button:hover {
+            background-color: #dd456d;
+            color: #fff;
         }
 
         p {
@@ -115,6 +135,7 @@
             </div>
             <button type="submit">Iniciar Sesión</button>
         </form>
+        <a href="{% url 'home' %}" class="home-button">Ir a la página de inicio</a>
         <p>¿No tienes una cuenta? <a href="{% url 'register' %}">Regístrate aquí</a></p>
     </div>
 </body>
