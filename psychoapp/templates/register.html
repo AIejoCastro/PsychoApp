@@ -6,59 +6,78 @@
 <head>
     <title>Air - Registro</title>
     <link href="https://fonts.googleapis.com/css?family=Inconsolata:400,700" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-    <link rel="stylesheet" href="{% static 'css/icomoon.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'css/flexslider.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="{% static 'js/modernizr-2.6.2.min.js' %}"></script>
     <style>
         body {
             font-family: 'Inconsolata', monospace;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
+            margin: 40px 0;
+            background-color: #f0f8ff;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             flex-direction: column;
         }
 
         .form-container {
-            background-color: #fff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+            max-width: 600px;
             width: 100%;
             text-align: center;
             animation: fadeIn 1s ease-in-out;
         }
 
         h2 {
-            margin-bottom: 20px;
-            font-size: 24px;
+            margin-bottom: 25px;
+            font-size: 28px;
             color: #333;
         }
 
-        form p {
-            margin-bottom: 15px;
-            text-align: left;
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .form-group {
+            flex: 1 1 calc(50% - 20px);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            flex: 1 1 100%;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-top: 5px;
+            box-sizing: border-box;
+            font-size: 14px;
         }
 
         button {
-            background-color: #333;
+            background-color: #007bff;
             color: #fff;
             border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
+            padding: 12px 25px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+            transition: background-color 0.3s;
         }
 
         button:hover {
-            background-color: #555;
+            background-color: #0056b3;
         }
 
         p {
@@ -69,10 +88,11 @@
         p a {
             color: #007bff;
             text-decoration: none;
+            transition: color 0.3s;
         }
 
         p a:hover {
-            text-decoration: underline;
+            color: #0056b3;
         }
 
         @keyframes fadeIn {
@@ -89,11 +109,54 @@
 
 <body>
     <div class="form-container">
-        <h2>Register</h2>
+        <h2>Registro de Usuario</h2>
         <form method="post">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Register</button>
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email }}
+            </div>
+            <div class="form-group full-width">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+            </div>
+            <div class="form-group">
+                {{ form.fecha_nacimiento.label_tag }}
+                {{ form.fecha_nacimiento }}
+            </div>
+            <div class="form-group">
+                {{ form.telefono.label_tag }}
+                {{ form.telefono }}
+            </div>
+            <div class="form-group full-width">
+                {{ form.direccion.label_tag }}
+                {{ form.direccion }}
+            </div>
+            <div class="form-group full-width">
+                {{ form.contacto_emergencia.label_tag }}
+                {{ form.contacto_emergencia }}
+            </div>
+            <div class="form-group">
+                {{ form.telefono_emergencia.label_tag }}
+                {{ form.telefono_emergencia }}
+            </div>
+            <div class="form-group full-width">
+                {{ form.antecedentes_medicos.label_tag }}
+                {{ form.antecedentes_medicos }}
+            </div>
+            <div class="form-group full-width">
+                {{ form.medicamentos_actuales.label_tag }}
+                {{ form.medicamentos_actuales }}
+            </div>
+            <div class="form-group full-width">
+                {{ form.alergias.label_tag }}
+                {{ form.alergias }}
+            </div>
+            <button type="submit">Registrarse</button>
         </form>
         <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></p>
     </div>
