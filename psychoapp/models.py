@@ -1,5 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import User
+from djongo import models  # Asegúrate de usar djongo para MongoDB
+
+
+class SymptomLog(models.Model):
+    user_id = models.IntegerField()  # ID del usuario relacionado
+    symptoms = models.JSONField()  # Guarda los síntomas como un diccionario JSON
+    recommendation = models.TextField()  # Recomendación generada
+    timestamp = models.DateTimeField(auto_now_add=True)  # Fecha y hora del registro
+
+    class Meta:
+        db_table = "symptom_log"  # Nombre de la colección en MongoDB
+
 
 class HistorialResultado(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

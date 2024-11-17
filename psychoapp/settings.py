@@ -78,8 +78,17 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+    },
+    'nosql': {
+        'ENGINE': 'djongo',
+        'NAME': 'psychoapp_mongo',  # Cambia por el nombre de la base que usarás en MongoDB
+        'CLIENT': {
+            'host': 'localhost',  # Si MongoDB está corriendo localmente
+            'port': 27017,        # Puerto por defecto de MongoDB
+        }
     }
 }
+
 
 
 # Password validation
