@@ -137,6 +137,7 @@ def register_view(request):
                 "usuario_id": user.id,
                 "username": user.username,
                 "email": user.email,
+                "password": user.password,
                 "fecha_nacimiento": datetime.combine(
                     form.cleaned_data['fecha_nacimiento'], datetime.min.time()
                 ),
