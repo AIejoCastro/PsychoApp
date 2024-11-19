@@ -20,10 +20,6 @@ class RegisterForm(forms.Form):
     telefono_emergencia = forms.CharField(max_length=15)
 
 class UpdateUserForm(forms.ModelForm):
-    """
-    Formulario para actualizar la información del usuario en el modelo User
-    y otros detalles adicionales almacenados en MongoDB (si aplica).
-    """
     email = forms.EmailField(label="Correo electrónico", required=True)
     direccion = forms.CharField(max_length=255, label="Dirección", required=False)
     telefono = forms.CharField(max_length=15, label="Teléfono", required=False)

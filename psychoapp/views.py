@@ -82,6 +82,16 @@ def process_symptoms(request):
             )
             historial.save()
 
+            mongo_historial = {
+                "fecha": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                "sintomas": selected_buttons,
+                "resultado": result['resultado']
+            }
+            user_collection.update_one(
+                {"usuario_id": request.user.id},
+                {"$push": {"historial": mongo_historial}}
+            )
+
         return render(request, 'result_page.html', {'selected_buttons': selected_buttons, 'result': result})
     
     return render(request, 'your_template.html')
@@ -137,6 +147,7 @@ def register_view(request):
                 "alergias": form.cleaned_data['alergias'],
                 "contacto_emergencia": form.cleaned_data['contacto_emergencia'],
                 "telefono_emergencia": form.cleaned_data['telefono_emergencia'],
+                "historial": [],
             }
             user_collection.insert_one(mongo_user)
 
