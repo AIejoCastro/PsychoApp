@@ -3,11 +3,12 @@ from django.template import Template, Context
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 import psychoapp.expertSystem as expertSystem
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth.decorators import login_required
 from .models import HistorialResultado
 from datetime import datetime
+from django.contrib.auth.models import User
 
 from .models import user_collection
 
@@ -116,9 +117,16 @@ def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
+            user = User.objects.create_user(
+                username=form.cleaned_data['username'],
+                email=form.cleaned_data['email'],
+                password=form.cleaned_data['password']
+            )
+
             mongo_user = {
-                "username": form.cleaned_data['username'],
-                "email": form.cleaned_data['email'],
+                "usuario_id": user.id,
+                "username": user.username,
+                "email": user.email,
                 "fecha_nacimiento": datetime.combine(
                     form.cleaned_data['fecha_nacimiento'], datetime.min.time()
                 ),
@@ -132,7 +140,8 @@ def register_view(request):
             }
             user_collection.insert_one(mongo_user)
 
-            return redirect('login')
+            login(request, user)
+            return redirect('home')
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
