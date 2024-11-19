@@ -4,7 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.decorators.csrf import csrf_exempt
 import psychoapp.expertSystem as expertSystem
 from django.contrib.auth import authenticate, login
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, UpdateUserForm
 from django.contrib.auth.decorators import login_required
 from .models import HistorialResultado
 from datetime import datetime
@@ -145,3 +145,44 @@ def register_view(request):
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
+
+@login_required
+def edit_user(request):
+    user = request.user  # Usuario actual
+    mongo_user = user_collection.find_one({"usuario_id": user.id})  # Datos en MongoDB
+    
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST, instance=user)
+        if form.is_valid():
+            # Actualizar información en el modelo User
+            form.save()
+
+            # Actualizar información en MongoDB
+            user_collection.update_one(
+                {"usuario_id": user.id},
+                {
+                    "$set": {
+                        "direccion": form.cleaned_data['direccion'],
+                        "telefono": form.cleaned_data['telefono'],
+                        "antecedentes_medicos": form.cleaned_data['antecedentes_medicos'],
+                        "medicamentos_actuales": form.cleaned_data['medicamentos_actuales'],
+                        "alergias": form.cleaned_data['alergias'],
+                        "contacto_emergencia": form.cleaned_data['contacto_emergencia'],
+                        "telefono_emergencia": form.cleaned_data['telefono_emergencia'],
+                    }
+                }
+            )
+            return redirect('home')
+    else:
+        initial_data = {
+            "direccion": mongo_user.get("direccion", ""),
+            "telefono": mongo_user.get("telefono", ""),
+            "antecedentes_medicos": mongo_user.get("antecedentes_medicos", ""),
+            "medicamentos_actuales": mongo_user.get("medicamentos_actuales", ""),
+            "alergias": mongo_user.get("alergias", ""),
+            "contacto_emergencia": mongo_user.get("contacto_emergencia", ""),
+            "telefono_emergencia": mongo_user.get("telefono_emergencia", ""),
+        }
+        form = UpdateUserForm(instance=user, initial=initial_data)
+
+    return render(request, 'edit_user.html', {'form': form})

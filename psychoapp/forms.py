@@ -18,3 +18,21 @@ class RegisterForm(forms.Form):
     alergias = forms.CharField(widget=forms.Textarea, required=False)
     contacto_emergencia = forms.CharField(max_length=255)
     telefono_emergencia = forms.CharField(max_length=15)
+
+class UpdateUserForm(forms.ModelForm):
+    """
+    Formulario para actualizar la información del usuario en el modelo User
+    y otros detalles adicionales almacenados en MongoDB (si aplica).
+    """
+    email = forms.EmailField(label="Correo electrónico", required=True)
+    direccion = forms.CharField(max_length=255, label="Dirección", required=False)
+    telefono = forms.CharField(max_length=15, label="Teléfono", required=False)
+    antecedentes_medicos = forms.CharField(widget=forms.Textarea, label="Antecedentes médicos", required=False)
+    medicamentos_actuales = forms.CharField(widget=forms.Textarea, label="Medicamentos actuales", required=False)
+    alergias = forms.CharField(widget=forms.Textarea, label="Alergias", required=False)
+    contacto_emergencia = forms.CharField(max_length=255, label="Contacto de emergencia", required=False)
+    telefono_emergencia = forms.CharField(max_length=15, label="Teléfono de emergencia", required=False)
+
+    class Meta:
+        model = User
+        fields = ['email', 'direccion', 'telefono', 'antecedentes_medicos', 'medicamentos_actuales', 'alergias', 'contacto_emergencia', 'telefono_emergencia']

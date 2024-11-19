@@ -32,4 +32,5 @@ urlpatterns = [
     path('register/', register_view, name='register'),
     path('historial/', ver_historial, name='ver_historial'),
     path('historial/eliminar/<int:id>/', eliminar_historial, name='eliminar_historial'),
+    path('edit_user/', psychoapp.views.edit_user, name='edit_user'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
