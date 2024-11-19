@@ -50,6 +50,7 @@
 								<li class=""><a href="{% url 'chat' %}">Chat</a></li>
 								<li class=""><a href="{% url 'about' %}">Informacion</a></li>
 								<li class=""><a href="{% url 'ver_historial' %}">Historial</a></li>
+								<li class=""><a href="{% url 'edit_user' %}">Historia clinica</a></li>
 								{% if user.is_authenticated %}
 								<li class="btn-cta"><a href="{% url 'login' %}"><span>Cerrar sesion</span></a></li>
 								{% else %}
