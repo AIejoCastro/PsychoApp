@@ -26,6 +26,7 @@ pgmpy==0.1.25
 psycopg2-binary==2.9.9
 pydot==2.0.0
 pyformlang==1.0.9
+pymongo==3.11.4
 PyMuPDF==1.23.26
 PyMuPDFb==1.23.22
 pyparsing==3.1.2

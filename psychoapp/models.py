@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
+from db_connection import db
+
+user_collection = db['user']
 
 class HistorialResultado(models.Model):
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)

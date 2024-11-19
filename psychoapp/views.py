@@ -6,7 +6,10 @@ import psychoapp.expertSystem as expertSystem
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm, RegisterForm
 from django.contrib.auth.decorators import login_required
-from .models import HistorialResultado, HistoriaClinica
+from .models import HistorialResultado
+from datetime import datetime
+
+from .models import user_collection
 
 def index(request):
     doc_index = open("psychoApp/templates/index.html")
@@ -113,24 +116,23 @@ def register_view(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])
-            user.save()
+            mongo_user = {
+                "username": form.cleaned_data['username'],
+                "email": form.cleaned_data['email'],
+                "fecha_nacimiento": datetime.combine(
+                    form.cleaned_data['fecha_nacimiento'], datetime.min.time()
+                ),
+                "direccion": form.cleaned_data['direccion'],
+                "telefono": form.cleaned_data['telefono'],
+                "antecedentes_medicos": form.cleaned_data['antecedentes_medicos'],
+                "medicamentos_actuales": form.cleaned_data['medicamentos_actuales'],
+                "alergias": form.cleaned_data['alergias'],
+                "contacto_emergencia": form.cleaned_data['contacto_emergencia'],
+                "telefono_emergencia": form.cleaned_data['telefono_emergencia'],
+            }
+            user_collection.insert_one(mongo_user)
 
-            historia_clinica = HistoriaClinica.objects.create(
-                usuario=user,
-                fecha_nacimiento=form.cleaned_data['fecha_nacimiento'],
-                direccion=form.cleaned_data['direccion'],
-                telefono=form.cleaned_data['telefono'],
-                antecedentes_medicos=form.cleaned_data['antecedentes_medicos'],
-                medicamentos_actuales=form.cleaned_data['medicamentos_actuales'],
-                alergias=form.cleaned_data['alergias'],
-                contacto_emergencia=form.cleaned_data['contacto_emergencia'],
-                telefono_emergencia=form.cleaned_data['telefono_emergencia']
-            )
-
-            login(request, user)
-            return redirect('home')
+            return redirect('login')
     else:
         form = RegisterForm()
     return render(request, 'register.html', {'form': form})
